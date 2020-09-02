@@ -7,7 +7,7 @@ end
 DEBUG = true
 
 function love.load()
-    love.graphics.setBackgroundColor(34/255,32/255,52/255)
+    love.graphics.setBackgroundColor(0.125, 0.125, 0.2)
     love.graphics.setDefaultFilter("nearest", "nearest")
     love.graphics.setLineStyle("rough")
     local Scene = require 'scn.title'
@@ -17,7 +17,7 @@ end
 
 function love.keypressed(key)
     if DEBUG then
-        if key == "escape" then love.event.quit() end
+        if key == "q" and love.keyboard.isDown("lctrl") then love.event.quit() end
     end
     if key == "`" then DEBUG = not DEBUG end
 end
@@ -28,4 +28,11 @@ end
 
 function love.draw()
     scene_manager.draw()
+    if DEBUG then
+        local WIDTH = love.graphics.getWidth()
+        local HEIGHT = love.graphics.getHeight()
+        love.graphics.setColor(1, 1, 1)
+        love.graphics.printf("Untitled City-Builder v0.0.0", 0, HEIGHT - 16, WIDTH, "center")
+        love.graphics.printf("Scene: " .. scene_manager.scene().name, 0, HEIGHT - 16, WIDTH, "left")
+    end
 end
