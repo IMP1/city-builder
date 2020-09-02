@@ -12,12 +12,15 @@ function Scene.new()
 end
 
 function Scene:load()
+    love.graphics.setBackgroundColor(0.125, 0.125, 0.2)
 end
 
 function Scene:keyPressed(key)
+    local nextScene = require 'scn.game'
+    scene_manager.pushScene(nextScene.new())
 end
 
-function Scene:mousePressed()
+function Scene:mousePressed(mx, my, key)
 end
 
 function Scene:draw()
