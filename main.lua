@@ -4,10 +4,7 @@ function T(str)
     return str
 end
 
-DEBUG = false
-
-local PIXEL_SCALE = 1
-local WIDTH, HEIGHT = love.graphics.getWidth(), love.graphics.getHeight()
+DEBUG = true
 
 function love.load()
     love.graphics.setBackgroundColor(34/255,32/255,52/255)
