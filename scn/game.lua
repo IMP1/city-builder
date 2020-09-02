@@ -58,10 +58,26 @@ function Scene:update(dt)
 end
 
 function Scene:draw()
+    local mx, my = love.mouse.getPosition()
+    local x, y = self.camera:toWorldPosition(mx, my)
+    local i, j = math.floor(x / TILE_SIZE), math.floor(y / TILE_SIZE)
+    local obj = (self.map.objects[j+1] or {})[i+1]
+    x = i * TILE_SIZE
+    y = j * TILE_SIZE
+
     love.graphics.setColor(1, 1, 1)
+
     self.camera:set()
     self.map:draw(TILE_SIZE)
+
+    love.graphics.setColor(1, 1, 1, 0.2)
+    love.graphics.rectangle("line", x, y, TILE_SIZE, TILE_SIZE)
     self.camera:unset()
+    
+    if obj then
+        love.graphics.setColor(1, 1, 1)
+        love.graphics.print(obj.name, 0, 0)
+    end
 end
 
 return Scene
