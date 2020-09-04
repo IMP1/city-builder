@@ -25,6 +25,7 @@ function map.new()
     setmetatable(self, map)
     self.terrain = {}
     self.objects = {}
+    self.buildings = {}
     return self
 end
 
@@ -68,7 +69,9 @@ function map:draw(tile_size)
             end
         end
     end
-
+    for _, building in pairs(self.buildings) do
+        building:draw(tile_size)
+    end
 end
 
 return map
