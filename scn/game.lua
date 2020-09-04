@@ -21,6 +21,7 @@ function Scene.new(map)
     self.gui = Gui.new(self)
     self.selection = nil
     self.selection_drag_origin = nil
+    self.selection_drag_position = nil
     return self
 end
 
@@ -41,6 +42,14 @@ function Scene:mousePressed(mx, my, key)
     local x, y = self.camera:toWorldPosition(mx, my)
     local i, j = math.floor(x / TILE_SIZE), math.floor(y / TILE_SIZE)
     self.selection_drag_origin = {i, j}
+end
+
+function Scene:mouseReleased(mx, my, key)
+    self.selection_drag_origin = nil
+    self.selection_drag_position = nil
+    -- TODO: Check if selection exists and is a blueprint
+    -- TODO: Check if blueprint position is valid
+    -- TODO: Create Building with 0% completion in blueprint's location (and destroy blueprint)
 end
 
 function Scene:update(dt)
@@ -65,6 +74,12 @@ function Scene:update(dt)
     if camera_pan_x ~= 0 or camera_pan_y ~= 0 then
         self.camera:move(camera_pan_x * CAMERA_MOVE_SPEED * dt, camera_pan_y * CAMERA_MOVE_SPEED * dt)
     end
+    if self.selection_drag_origin then
+        local mx, my = love.mouse.getPosition()
+        local x, y = self.camera:toWorldPosition(mx, my)
+        local i, j = math.floor(x / TILE_SIZE), math.floor(y / TILE_SIZE)
+        self.selection_drag_position = {i, j}
+    end
 end
 
 function Scene:draw()
@@ -84,7 +99,14 @@ function Scene:draw()
     love.graphics.rectangle("line", x, y, TILE_SIZE, TILE_SIZE)
     if self.selection then
         if self.selection.building_class then -- It's a blueprint
-            self.selection:draw(TILE_SIZE, i, j)
+            local w, h = nil, nil
+            if self.selection_drag_position then
+                w = self.selection_drag_position[1] - self.selection_drag_origin[1]
+                h = self.selection_drag_position[2] - self.selection_drag_origin[2]
+                self.selection:draw(TILE_SIZE, self.selection_drag_origin[1], self.selection_drag_origin[2], w, h)
+            else
+                self.selection:draw(TILE_SIZE, i, j, w, h)
+            end
         end
     end
     self.camera:unset()
