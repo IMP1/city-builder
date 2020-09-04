@@ -21,6 +21,8 @@ function house:draw(tile_size)
     local w = self.width * tile_size - 8
     local h = self.height * tile_size - 8
     love.graphics.rectangle("fill", x, y, w, h)
+    love.graphics.setColor(0, 0, 0)
+    love.graphics.print(self.x .. ", " .. self.y, x, y + 6)
 end
 
 return house

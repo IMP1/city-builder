@@ -17,4 +17,12 @@ function building:draw()
     -- STUB
 end
 
+function building:contains_point(x, y)
+    if x < self.x then return false end
+    if y < self.y then return false end
+    if x > self.x + self.width - 1 then return false end
+    if y > self.y + self.height - 1 then return false end
+    return true
+end
+
 return building

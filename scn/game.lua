@@ -45,11 +45,23 @@ function Scene:mousePressed(mx, my, key)
 end
 
 function Scene:mouseReleased(mx, my, key)
+    local x, y = self.camera:toWorldPosition(mx, my)
+    local i, j = math.floor(x / TILE_SIZE), math.floor(y / TILE_SIZE)
+    if self.selection and self.selection.building_class then
+        x = math.min(self.selection_drag_position[1], self.selection_drag_origin[1])
+        y = math.min(self.selection_drag_position[2], self.selection_drag_origin[2])
+        local w = math.abs(self.selection_drag_position[1] - self.selection_drag_origin[1]) + 1
+        local h = math.abs(self.selection_drag_position[2] - self.selection_drag_origin[2]) + 1
+        if self.selection:is_valid(x, y, w, h, self.map) then
+            local new_building = self.selection.building_class.new(x, y, w, h)
+            table.insert(self.map.buildings, new_building)
+            if not love.keyboard.isDown("lshift") then
+                self.selection = nil
+            end
+        end
+    end
     self.selection_drag_origin = nil
     self.selection_drag_position = nil
-    -- TODO: Check if selection exists and is a blueprint
-    -- TODO: Check if blueprint position is valid
-    -- TODO: Create Building with 0% completion in blueprint's location (and destroy blueprint)
 end
 
 function Scene:update(dt)
@@ -101,11 +113,13 @@ function Scene:draw()
         if self.selection.building_class then -- It's a blueprint
             local w, h = nil, nil
             if self.selection_drag_position then
-                w = self.selection_drag_position[1] - self.selection_drag_origin[1]
-                h = self.selection_drag_position[2] - self.selection_drag_origin[2]
-                self.selection:draw(TILE_SIZE, self.selection_drag_origin[1], self.selection_drag_origin[2], w, h)
+                w = math.abs(self.selection_drag_position[1] - self.selection_drag_origin[1]) + 1
+                h = math.abs(self.selection_drag_position[2] - self.selection_drag_origin[2]) + 1
+                local i = math.min(self.selection_drag_origin[1], self.selection_drag_position[1])
+                local j = math.min(self.selection_drag_origin[2], self.selection_drag_position[2])
+                self.selection:draw(TILE_SIZE, i, j, w, h, self.map)
             else
-                self.selection:draw(TILE_SIZE, i, j, w, h)
+                self.selection:draw(TILE_SIZE, i, j, w, h, self.map)
             end
         end
     end
