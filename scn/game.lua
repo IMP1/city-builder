@@ -2,6 +2,7 @@ local scene_manager = require 'lib.scene_manager'
 
 local Map    = require 'cls.map'
 local Camera = require 'lib.camera'
+local Gui    = require 'gui.game'
 
 local BaseScene = require 'scn._base'
 local Scene = {}
@@ -16,6 +17,10 @@ function Scene.new(map)
     local self = BaseScene.new("Game")
     setmetatable(self, Scene)
     self.map = map
+    self.blueprints = {}
+    self.gui = Gui.new(self)
+    self.selection = nil
+    self.selection_drag_origin = nil
     return self
 end
 
@@ -28,9 +33,14 @@ function Scene:load()
 end
 
 function Scene:keyPressed(key)
+    self.gui:keyPressed(key)
 end
 
 function Scene:mousePressed(mx, my, key)
+    -- TODO: Add check that there is a selection or something to be dragging
+    local x, y = self.camera:toWorldPosition(mx, my)
+    local i, j = math.floor(x / TILE_SIZE), math.floor(y / TILE_SIZE)
+    self.selection_drag_origin = {i, j}
 end
 
 function Scene:update(dt)
@@ -72,12 +82,15 @@ function Scene:draw()
 
     love.graphics.setColor(1, 1, 1, 0.2)
     love.graphics.rectangle("line", x, y, TILE_SIZE, TILE_SIZE)
-    self.camera:unset()
-    
-    if obj then
-        love.graphics.setColor(1, 1, 1)
-        love.graphics.print(obj.name, 0, 0)
+    if self.selection then
+        if self.selection.building_class then -- It's a blueprint
+            self.selection:draw(TILE_SIZE, i, j)
+        end
     end
+    self.camera:unset()
+
+    self.gui:draw(TILE_SIZE)
+
 end
 
 return Scene
