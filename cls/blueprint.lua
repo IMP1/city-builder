@@ -9,14 +9,14 @@ function blueprint.new(building_class)
     return self
 end
 
-function blueprint:is_valid(x, y, width, height, map)
+function blueprint:is_valid(x, y, w, h, map)
     if type(self.building_class.width) == "table" then
-        if width < self.building_class.width[1] or width > self.building_class.width[2] then
+        if w < self.building_class.width[1] or w > self.building_class.width[2] then
             return false
         end
     end
     if type(self.building_class.height) == "table" then
-        if height < self.building_class.height[1] or height > self.building_class.height[2] then
+        if h < self.building_class.height[1] or h > self.building_class.height[2] then
             return false
         end
     end
@@ -33,6 +33,7 @@ function blueprint:is_valid(x, y, width, height, map)
             if (map.terrain[j+1] or {})[i+1] == 1 then -- water
                 return false
             end
+            -- TODO: Add resource objects (and other objects)
             -- TODO: Add other non-buildable terrains
             for _, building in pairs(map.buildings) do
                 if building:contains_point(i, j) then
