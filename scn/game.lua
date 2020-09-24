@@ -45,6 +45,7 @@ function Scene:mousePressed(mx, my, key)
 end
 
 function Scene:mouseReleased(mx, my, key)
+    -- TODO: If right click then cancel the selection/drag
     local x, y = self.camera:toWorldPosition(mx, my)
     local i, j = math.floor(x / TILE_SIZE), math.floor(y / TILE_SIZE)
     if self.selection and self.selection.building_class then
