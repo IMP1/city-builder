@@ -1,0 +1,77 @@
+A City-Builder meets a RTS
+
+Less focus on armies, but more on economies and resource management.
+
+Also maybe a few different basic resources, and then processes to use them to create others.
+
+Base Resources:
+
+  * Stone
+  * Wood
+  * Ore
+  * Coal
+  * Flint
+  * Food (of differing types)
+  * Supply (people)
+
+Resources are shared in a global pool, but are taken to and from the nearest stockpile (or city centre)
+
+Buildings:
+
+  * Dock
+    Allows workers to fish (generates `fish` resource)
+  * Charcoaler
+    Allows workers to transform wood into charcoal
+  * Smelter
+    Allows workers to use coal/charcoal to smelt ore into metals
+  * Forge/Smith
+    Allows workers to use metals into various materials/tools
+  * Carpenter
+    Allows workers to transform wood into various materials/tools
+  * House
+    Allows for more workers to be produced
+  * Farm
+    Allows farmers to produce food (generates `wheat` /whatever resource)
+  * Stockpile/Storage/Silo/Barn
+    A location where resources can be dropped off and taken from
+  * Tailor
+    Creates clothes out of wool/cotton/leather
+  * 
+
+  * Roads
+    Allow faster movement (slight for foot, more for wheels)
+  * 
+
+Buildings have limits on how many workers can work in them. Workers can have their own jobs, or work together for a speed boost.
+You can upgrade some buildings to allow more workers?
+
+Workers get better at their job over time.
+They can also train/prepare for their job (which doesn't do the job, but does increase their skill at it)
+Workers have a set of tools. Your starting workers begin with axes and stuff.
+There are intermediate resources that are automatically constructed as needed (for example, a wheel might need planks, and sticks), 
+but you can also craft those intermediate resources and either stockpile them in preparation, or sell them? Maybe they all are used in something?
+
+
+Technologies:
+
+  * Whetstones (faster mining/chopping/hunting)
+    Communal resource, applies globally
+  * 
+
+  * Wheelbarrows (carry capacity + speed on roads)
+    Must be built by the carpenter and can be assigned to workers.
+  * Ploughs (faster farming)
+    Must be built by the carpenter and can be assigned to farms (and then to workers while they work).
+  * 
+
+When placing buildings a blueprint is placed. The resources need to be taken to the blueprint as it's constructed, like Banished.
+So the cost is not up-front.
+
+
+Is there an end-goal to this?
+Is there a challenge to this?
+    Survival?
+Is there any progression?
+    Ages, like AoE? I don't like this. It's nice for everything to available.
+    Maybe a school which requires materials (tools, whatever) like in Factory Town and unlocks stuff.
+
